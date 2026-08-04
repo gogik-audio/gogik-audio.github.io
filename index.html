@@ -25,9 +25,11 @@
 
     <!-- Шапка с новым четким шрифтом -->
     <header class="flex justify-between items-center border-b border-gray-800 pb-6">
-        <div class="text-2xl md:text-3xl font-tech font-bold tracking-wider text-white">
-            GOGIK // AUDIO
-        </div>
+	<div class="text-xl md:text-2xl font-tech font-bold tracking-[0.2em] text-white uppercase flex items-center">
+    		<span class="text-[#D71921] mr-2">[</span>
+    		<span>GOGIK // AUDIO</span>
+    		<span class="text-[#D71921] ml-2">]</span>
+	</div>
         <div class="text-xs tracking-widest text-gray-400 flex items-center gap-2">
             <span>SYS.STATUS:</span>
             <span class="text-[#D71921] font-bold">● ONLINE</span>
@@ -35,7 +37,7 @@
     </header>
 
     <!-- Главный блок -->
-    <main class="my-auto py-16 max-w-4xl">
+    <main class="my-auto py-16 max-w-6xl mx-auto w-full">
         <div class="inline-block bg-gray-900 border border-gray-700 px-3 py-1 text-xs text-gray-400 mb-6 font-tech tracking-wider uppercase">
             EST. 2026 // LAB RELEASE
         </div>
@@ -44,33 +46,117 @@
         </h1>
         <p class="text-gray-400 max-w-xl mb-12 text-sm leading-relaxed">
             Разработка аудио-плагинов на чистом Rust. Бескомпромиссная скорость обработки, 
-            интерактивная визуализация сигнала и индустриальный дизайн для Ableton Live.
+            интерактивная визуализация сигнала и индустриальный дизайн для современных DAW.
         </p>
 
-        <!-- Карточка плагина GOG // GEN-01 -->
-        <div class="border border-gray-800 bg-[#111111]/90 p-6 relative group hover:border-gray-600 transition-colors">
-            <!-- Красный акцентный уголок в стиле Nothing -->
-            <div class="absolute top-0 right-0 w-3 h-3 bg-[#D71921]"></div>
+        <!-- Сетка плагинов -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             
-            <div class="flex justify-between items-start mb-4">
+            <!-- Карточка GOG // CMP-01 -->
+            <div class="border border-gray-800 bg-[#111111]/90 p-6 relative group hover:border-gray-600 transition-colors flex flex-col justify-between">
+                <div class="absolute top-0 right-0 w-3 h-3 bg-[#D71921]"></div>
                 <div>
-                    <span class="text-xs text-[#D71921] font-bold tracking-wider">PLG-01 // UTILITY</span>
-                    <h2 class="text-2xl font-tech font-bold text-white mt-1">GOG // GEN-01</h2>
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <span class="text-xs text-[#D71921] font-bold tracking-wider">PLG-02 // DYNAMICS</span>
+                            <h2 class="text-2xl font-tech font-bold text-white mt-1">GOG // CMP-01</h2>
+                        </div>
+                        <span class="text-xs border border-gray-700 px-2 py-1 text-gray-400">BUILD: v0.1.0</span>
+                    </div>
+                    <p class="text-gray-400 text-xs mb-6">
+                        Компрессор студийного уровня с переключением Hard/Soft knee. Интегрированы потокобезопасные (atomic) пик-метры для точного отслеживания Gain Reduction и алгоритм связанных каналов для сохранения стереокартины.
+                    </p>
                 </div>
-                <span class="text-xs border border-gray-700 px-2 py-1 text-gray-400">BUILD: v0.1.0-ALPHA</span>
+                <div class="flex items-center gap-4 border-t border-gray-800 pt-4">
+                    <span class="text-xs text-gray-300 font-bold tracking-widest uppercase">VST3 / CLAP / STANDALONE</span>
+                </div>
             </div>
-            
-            <p class="text-gray-400 text-xs mb-6">
-                Лабораторный генератор тестовых сигналов (Sine, White Noise, Impulse). 
-                Предназначен для калибровки цепочки эффектов и анализа АЧХ.
-            </p>
 
-            <div class="flex items-center gap-4">
-                <button class="bg-[#D71921] hover:bg-red-700 text-white text-xs font-bold px-6 py-3 tracking-widest uppercase transition-colors">
-                    [ Скоро релиз ]
-                </button>
-                <span class="text-xs text-gray-500">VST3 / CLAP // macOS & Windows</span>
+            <!-- Карточка GOG // DLY-01 -->
+            <div class="border border-gray-800 bg-[#111111]/90 p-6 relative group hover:border-gray-600 transition-colors flex flex-col justify-between">
+                <div class="absolute top-0 right-0 w-3 h-3 bg-[#D71921]"></div>
+                <div>
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <span class="text-xs text-[#D71921] font-bold tracking-wider">PLG-03 // TIME-BASED</span>
+                            <h2 class="text-2xl font-tech font-bold text-white mt-1">GOG // DLY-01</h2>
+                        </div>
+                        <span class="text-xs border border-gray-700 px-2 py-1 text-gray-400">BUILD: v0.1.0</span>
+                    </div>
+                    <p class="text-gray-400 text-xs mb-6">
+                        Модуль задержки с жесткой синхронизацией темпа DAW. Оснащен независимыми индикаторами пиков для левого и правого каналов (L/R) и гибким управлением обратной связью.
+                    </p>
+                </div>
+                <div class="flex items-center gap-4 border-t border-gray-800 pt-4">
+                    <span class="text-xs text-gray-300 font-bold tracking-widest uppercase">VST3 / CLAP / STANDALONE</span>
+                </div>
             </div>
+
+            <!-- Карточка GOG // FLT-01 -->
+            <div class="border border-gray-800 bg-[#111111]/90 p-6 relative group hover:border-gray-600 transition-colors flex flex-col justify-between">
+                <div class="absolute top-0 right-0 w-3 h-3 bg-gray-600 group-hover:bg-[#D71921] transition-colors"></div>
+                <div>
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <span class="text-xs text-gray-500 font-bold tracking-wider">PLG-04 // FREQUENCY</span>
+                            <h2 class="text-2xl font-tech font-bold text-white mt-1">GOG // FLT-01</h2>
+                        </div>
+                        <span class="text-xs border border-gray-700 px-2 py-1 text-gray-400">BUILD: v0.1.0</span>
+                    </div>
+                    <p class="text-gray-400 text-xs mb-6">
+                        Многорежимный фильтр для хирургического вмешательства в частотный спектр. Линейное сглаживание параметров (50ms) обеспечивает плавную автоматизацию без аудио-артефактов.
+                    </p>
+                </div>
+                <div class="flex items-center gap-4 border-t border-gray-800 pt-4">
+                    <span class="text-xs text-gray-300 font-bold tracking-widest uppercase">VST3 / CLAP / STANDALONE</span>
+                </div>
+            </div>
+
+            <!-- Карточка GOG // DST-01 -->
+            <div class="border border-gray-800 bg-[#111111]/90 p-6 relative group hover:border-gray-600 transition-colors flex flex-col justify-between">
+                <div class="absolute top-0 right-0 w-3 h-3 bg-gray-600 group-hover:bg-[#D71921] transition-colors"></div>
+                <div>
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <span class="text-xs text-gray-500 font-bold tracking-wider">PLG-05 // HARMONICS</span>
+                            <h2 class="text-2xl font-tech font-bold text-white mt-1">GOG // DST-01</h2>
+                        </div>
+                        <span class="text-xs border border-gray-700 px-2 py-1 text-gray-400">BUILD: v0.1.0</span>
+                    </div>
+                    <p class="text-gray-400 text-xs mb-6">
+                        Модуль сатурации и искажений. Придает сигналу контролируемую плотность. Строгая нормализация внутренней архитектуры (0.0-1.0) исключает ошибки гейн-стейджинга.
+                    </p>
+                </div>
+                <div class="flex items-center gap-4 border-t border-gray-800 pt-4">
+                    <span class="text-xs text-gray-300 font-bold tracking-widest uppercase">VST3 / CLAP / STANDALONE</span>
+                </div>
+            </div>
+
+            <!-- Карточка GOG // GEN-01 (Оригинальная) -->
+            <div class="border border-gray-800 bg-[#111111]/90 p-6 relative group hover:border-gray-600 transition-colors md:col-span-2">
+                <div class="absolute top-0 right-0 w-3 h-3 bg-[#D71921]"></div>
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+                    <div class="flex-1">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <span class="text-xs text-[#D71921] font-bold tracking-wider">PLG-01 // UTILITY</span>
+                                <h2 class="text-2xl font-tech font-bold text-white mt-1">GOG // GEN-01</h2>
+                            </div>
+                            <span class="text-xs border border-gray-700 px-2 py-1 text-gray-400">BUILD: v0.1.0-ALPHA</span>
+                        </div>
+                        <p class="text-gray-400 text-xs max-w-2xl">
+                            Лабораторный генератор тестовых сигналов (Sine, White Noise, Impulse). 
+                            Предназначен для строгой калибровки цепочки эффектов и анализа АЧХ.
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-4 shrink-0">
+                        <button class="bg-gray-800 text-gray-400 cursor-not-allowed text-xs font-bold px-6 py-3 tracking-widest uppercase transition-colors">
+                            [ INTERNAL USE ]
+                        </button>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </main>
 
