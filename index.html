@@ -1,188 +1,365 @@
 <!DOCTYPE html>
-<html lang="ru" class="bg-[#0A0A0A] text-gray-200">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GOGIK // AUDIO</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>GOGIK Audio | Surgical DSP</title>
+    
+    <!-- Using Google Fonts: Space Grotesk for headings, Roboto Mono for tech text -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- Подключаем ультрачеткие шрифты Space Grotesk и JetBrains Mono -->
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;700&family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
+
     <style>
-        body { font-family: 'JetBrains Mono', monospace; }
-        .font-tech { font-family: 'Space Grotesk', sans-serif; }
-        /* Индустриальная фоновая сетка */
-        .bg-grid {
-            background-size: 40px 40px;
-            background-image: 
-                linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+        :root {
+            --bg-color: #0a0a0a;
+            --surface-color: #121212;
+            --surface-light: #1e1e1e;
+            --text-main: #e0e0e0;
+            --text-muted: #888888;
+            --accent-red: #ff3333;
+            --accent-hover: #cc0000;
+            --font-mono: 'Roboto Mono', monospace;
+            --font-display: 'Space Grotesk', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-mono);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        ::selection {
+            background: var(--accent-red);
+            color: #fff;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        header {
+            padding: 2rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #333;
+        }
+
+        .logo {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: -1px;
+            color: #fff;
+            text-transform: uppercase;
+        }
+
+        .logo span {
+            color: var(--accent-red);
+        }
+
+        nav a {
+            color: var(--text-main);
+            text-decoration: none;
+            margin-left: 2rem;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            transition: color 0.2s;
+        }
+
+        nav a:hover {
+            color: var(--accent-red);
+        }
+
+        .hero {
+            padding: 6rem 0;
+            position: relative;
+        }
+
+        #bg-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            max-width: 700px;
+        }
+
+        h1 {
+            font-family: var(--font-display);
+            font-size: 3.5rem;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            color: #fff;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 2.5rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-decoration: none;
+            text-transform: uppercase;
+            border: 2px solid var(--accent-red);
+            background: transparent;
+            color: var(--accent-red);
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: var(--accent-red);
+            color: #fff;
+        }
+
+        .btn:hover {
+            background: var(--accent-hover);
+            border-color: var(--accent-hover);
+            color: #fff;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .section-title {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: #fff;
+            border-left: 4px solid var(--accent-red);
+            padding-left: 1rem;
+        }
+
+        .plugins-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .plugin-card {
+            background: var(--surface-color);
+            border: 1px solid #222;
+            padding: 2rem;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .plugin-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-red);
+        }
+
+        .plugin-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #fff;
+        }
+
+        .plugin-desc {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        footer {
+            border-top: 1px solid #333;
+            padding: 3rem 0;
+            margin-top: 4rem;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+
+        .tech-badge {
+            display: inline-block;
+            background: var(--surface-light);
+            padding: 0.2rem 0.5rem;
+            border-radius: 3px;
+            font-size: 0.8rem;
+            margin-right: 0.5rem;
+            border: 1px solid #333;
         }
     </style>
 </head>
-<body class="bg-grid min-h-screen flex flex-col justify-between p-6 md:p-12 selection:bg-[#D71921] selection:text-white">
+<body>
 
-    <!-- Шапка с новым четким шрифтом -->
-    <header class="flex justify-between items-center border-b border-gray-800 pb-6">
-	<div class="text-xl md:text-2xl font-tech font-bold tracking-[0.2em] text-white uppercase flex items-center">
-    		<span class="text-[#D71921] mr-2">[</span>
-    		<span>GOGIK // AUDIO</span>
-    		<span class="text-[#D71921] ml-2">]</span>
-	</div>
-        <div class="text-xs tracking-widest text-gray-400 flex items-center gap-2">
-            <span>SYS.STATUS:</span>
-            <span class="text-[#D71921] font-bold">● ONLINE</span>
-        </div>
-    </header>
+    <div class="container">
+        <header>
+            <div class="logo">GOGIK<span>_AUDIO</span></div>
+            <nav>
+                <a href="#arsenal">The Arsenal</a>
+                <a href="https://boosty.to/gogik_audio" target="_blank">Support</a>
+                <a href="https://github.com/georgejawoods" target="_blank">GitHub</a>
+            </nav>
+        </header>
 
-    <!-- Главный блок -->
-    <main class="my-auto py-16 max-w-6xl mx-auto w-full">
-        <div class="inline-block bg-gray-900 border border-gray-700 px-3 py-1 text-xs text-gray-400 mb-6 font-tech tracking-wider uppercase">
-            EST. 2026 // LAB RELEASE
-        </div>
-        <h1 class="text-4xl md:text-6xl font-tech font-bold tracking-tight text-white mb-6 uppercase leading-tight">
-            Техно-минимализм <br>для саунд-дизайна.
-        </h1>
-        <p class="text-gray-400 max-w-xl mb-12 text-sm leading-relaxed">
-            Разработка аудио-плагинов на чистом Rust. Бескомпромиссная скорость обработки, 
-            интерактивная визуализация сигнала и индустриальный дизайн для современных DAW.
-        </p>
+        <section class="hero">
+            <canvas id="bg-canvas"></canvas>
+            <div class="hero-content">
+                <h1>Surgical DSP & Controlled Destruction</h1>
+                <p class="subtitle">
+                    I build brutalist, highly optimized VST3/CLAP plugins written from scratch in Rust. 
+                    No analog emulations. Just raw digital math, extreme wavefolding, and industrial textures.
+                </p>
+                <div class="btn-group">
+                    <!-- MAIN CTA TO BOOSTY -->
+                    <a href="https://boosty.to/gogik_audio/posts/6dbda691-5672-4942-af36-f57f7b6b7e90" target="_blank" class="btn btn-primary">Download Suite (Free)</a>
+                    <a href="https://boosty.to/gogik_audio" target="_blank" class="btn">Send a Tip</a>
+                </div>
+            </div>
+        </section>
 
-        <!-- Сетка плагинов -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <section id="arsenal">
+            <h2 class="section-title">The Arsenal (v1.0)</h2>
+            <div class="plugins-grid">
+                
+                <div class="plugin-card">
+                    <div class="plugin-name">GEN-01</div>
+                    <div class="tech-badge">Generator</div>
+                    <p class="plugin-desc"><br>Raw noise and tone generator for building heavy industrial textures from the ground up.</p>
+                </div>
+
+                <div class="plugin-card">
+                    <div class="plugin-name">FLT-01</div>
+                    <div class="tech-badge">Filter</div>
+                    <p class="plugin-desc"><br>Aggressive multi-mode filtering. Cut through the mix or completely destroy the frequency spectrum.</p>
+                </div>
+
+                <div class="plugin-card">
+                    <div class="plugin-name">DST-01</div>
+                    <div class="tech-badge">Distortion</div>
+                    <p class="plugin-desc"><br>Non-linear distortion and extreme wavefolding. Pushes any signal into calculated digital chaos.</p>
+                </div>
+
+                <div class="plugin-card">
+                    <div class="plugin-name">DLY-01</div>
+                    <div class="tech-badge">Delay</div>
+                    <p class="plugin-desc"><br>Industrial feedback delay based on custom ring-buffers. Perfect for metallic, resonant spaces.</p>
+                </div>
+
+                <div class="plugin-card">
+                    <div class="plugin-name">CMP-01</div>
+                    <div class="tech-badge">Dynamics</div>
+                    <p class="plugin-desc"><br>Brutal dynamic compression. Smash your transients or create suffocating pumping effects.</p>
+                </div>
+
+            </div>
+        </section>
+
+        <footer>
+            <p>Developed with <span class="tech-badge">Rust</span> and <span class="tech-badge">nih-plug</span></p>
+            <p style="margin-top: 1rem;">© 2026 GOGIK Audio. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+
+        let width, height;
+        let time = 0;
+
+        function resize() {
+            // Match canvas size to the hero section
+            const hero = document.querySelector('.hero');
+            width = hero.clientWidth;
+            height = hero.clientHeight;
+            canvas.width = width * window.devicePixelRatio;
+            canvas.height = height * window.devicePixelRatio;
+            ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+        }
+
+        window.addEventListener('resize', resize);
+        resize();
+
+        function wavefold(val, threshold) {
+            let folded = val;
+            let safety = 0;
+            while (Math.abs(folded) > threshold && safety < 5) {
+                const diff = Math.abs(folded) - threshold;
+                folded = Math.sign(folded) * (threshold - diff);
+                safety++;
+            }
+            return folded;
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, width, height);
+
+            const cy = height / 2;
+            const points = 150;
+            const step = width / points;
+            const threshold = 0.5;
             
-            <!-- Карточка GOG // CMP-01 -->
-            <div class="border border-gray-800 bg-[#111111]/90 p-6 relative group hover:border-gray-600 transition-colors flex flex-col justify-between">
-                <div class="absolute top-0 right-0 w-3 h-3 bg-[#D71921]"></div>
-                <div>
-                    <div class="flex justify-between items-start mb-4">
-                        <div>
-                            <span class="text-xs text-[#D71921] font-bold tracking-wider">PLG-02 // DYNAMICS</span>
-                            <h2 class="text-2xl font-tech font-bold text-white mt-1">GOG // CMP-01</h2>
-                        </div>
-                        <span class="text-xs border border-gray-700 px-2 py-1 text-gray-400">BUILD: v0.1.0</span>
-                    </div>
-                    <p class="text-gray-400 text-xs mb-6">
-                        Компрессор студийного уровня с переключением Hard/Soft knee. Интегрированы потокобезопасные (atomic) пик-метры для точного отслеживания Gain Reduction и алгоритм связанных каналов для сохранения стереокартины.
-                    </p>
-                </div>
-                <div class="flex justify-between items-center border-t border-gray-800 pt-4 mt-auto">
-                    <span class="text-xs text-gray-300 font-bold tracking-widest uppercase">VST3 / CLAP / STANDALONE</span>
-                    <a href="https://github.com/georgejawoods/GOG-CMP-01" target="_blank" class="text-xs text-gray-500 hover:text-white font-bold tracking-widest transition-colors">
-                        GITHUB ↗
-                    </a>
-                </div>
-            </div>
+            // Pulsing gain to animate the wavefolding effect
+            const gain = 1.0 + Math.sin(time * 0.5) * 0.8; 
+            const freq = 0.015;
 
-            <!-- Карточка GOG // DLY-01 -->
-            <div class="border border-gray-800 bg-[#111111]/90 p-6 relative group hover:border-gray-600 transition-colors flex flex-col justify-between">
-                <div class="absolute top-0 right-0 w-3 h-3 bg-[#D71921]"></div>
-                <div>
-                    <div class="flex justify-between items-start mb-4">
-                        <div>
-                            <span class="text-xs text-[#D71921] font-bold tracking-wider">PLG-03 // TIME-BASED</span>
-                            <h2 class="text-2xl font-tech font-bold text-white mt-1">GOG // DLY-01</h2>
-                        </div>
-                        <span class="text-xs border border-gray-700 px-2 py-1 text-gray-400">BUILD: v0.1.0</span>
-                    </div>
-                    <p class="text-gray-400 text-xs mb-6">
-                        Модуль задержки с жесткой синхронизацией темпа DAW. Оснащен независимыми индикаторами пиков для левого и правого каналов (L/R) и гибким управлением обратной связью.
-                    </p>
-                </div>
-                <div class="flex justify-between items-center border-t border-gray-800 pt-4 mt-auto">
-                    <span class="text-xs text-gray-300 font-bold tracking-widest uppercase">VST3 / CLAP / STANDALONE</span>
-                    <a href="https://github.com/georgejawoods/GOG-DLY-01" target="_blank" class="text-xs text-gray-500 hover:text-white font-bold tracking-widest transition-colors">
-                        GITHUB ↗
-                    </a>
-                </div>
-            </div>
+            ctx.beginPath();
+            ctx.strokeStyle = '#ff3333';
+            ctx.lineWidth = 2;
 
-            <!-- Карточка GOG // FLT-01 -->
-            <div class="border border-gray-800 bg-[#111111]/90 p-6 relative group hover:border-gray-600 transition-colors flex flex-col justify-between">
-                <div class="absolute top-0 right-0 w-3 h-3 bg-gray-600 group-hover:bg-[#D71921] transition-colors"></div>
-                <div>
-                    <div class="flex justify-between items-start mb-4">
-                        <div>
-                            <span class="text-xs text-gray-500 font-bold tracking-wider">PLG-04 // FREQUENCY</span>
-                            <h2 class="text-2xl font-tech font-bold text-white mt-1">GOG // FLT-01</h2>
-                        </div>
-                        <span class="text-xs border border-gray-700 px-2 py-1 text-gray-400">BUILD: v0.1.0</span>
-                    </div>
-                    <p class="text-gray-400 text-xs mb-6">
-                        Многорежимный фильтр для хирургического вмешательства в частотный спектр. Линейное сглаживание параметров (50ms) обеспечивает плавную автоматизацию без аудио-артефактов.
-                    </p>
-                </div>
-                <div class="flex justify-between items-center border-t border-gray-800 pt-4 mt-auto">
-                    <span class="text-xs text-gray-300 font-bold tracking-widest uppercase">VST3 / CLAP / STANDALONE</span>
-                    <a href="https://github.com/georgejawoods/GOG-FLT-01" target="_blank" class="text-xs text-gray-500 hover:text-white font-bold tracking-widest transition-colors">
-                        GITHUB ↗
-                    </a>
-                </div>
-            </div>
+            for (let i = 0; i <= points; i++) {
+                const x = i * step;
+                // Generate sine wave
+                const inputVal = Math.sin(i * freq + (time * 2)) * gain;
+                // Apply wavefolding
+                const outputVal = wavefold(inputVal, threshold);
+                
+                const y = cy - (outputVal * (height * 0.4));
+                
+                if (i === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            }
+            ctx.stroke();
 
-            <!-- Карточка GOG // DST-01 -->
-            <div class="border border-gray-800 bg-[#111111]/90 p-6 relative group hover:border-gray-600 transition-colors flex flex-col justify-between">
-                <div class="absolute top-0 right-0 w-3 h-3 bg-gray-600 group-hover:bg-[#D71921] transition-colors"></div>
-                <div>
-                    <div class="flex justify-between items-start mb-4">
-                        <div>
-                            <span class="text-xs text-gray-500 font-bold tracking-wider">PLG-05 // HARMONICS</span>
-                            <h2 class="text-2xl font-tech font-bold text-white mt-1">GOG // DST-01</h2>
-                        </div>
-                        <span class="text-xs border border-gray-700 px-2 py-1 text-gray-400">BUILD: v0.1.0</span>
-                    </div>
-                    <p class="text-gray-400 text-xs mb-6">
-                        Модуль сатурации и искажений. Придает сигналу контролируемую плотность. Строгая нормализация внутренней архитектуры (0.0-1.0) исключает ошибки гейн-стейджинга.
-                    </p>
-                </div>
-                <div class="flex justify-between items-center border-t border-gray-800 pt-4 mt-auto">
-                    <span class="text-xs text-gray-300 font-bold tracking-widest uppercase">VST3 / CLAP / STANDALONE</span>
-                    <a href="https://github.com/georgejawoods/GOG-DST-01" target="_blank" class="text-xs text-gray-500 hover:text-white font-bold tracking-widest transition-colors">
-                        GITHUB ↗
-                    </a>
-                </div>
-            </div>
+            // Draw threshold limits
+            ctx.beginPath();
+            ctx.strokeStyle = '#333';
+            ctx.setLineDash([5, 5]);
+            ctx.moveTo(0, cy - (threshold * (height * 0.4)));
+            ctx.lineTo(width, cy - (threshold * (height * 0.4)));
+            ctx.moveTo(0, cy + (threshold * (height * 0.4)));
+            ctx.lineTo(width, cy + (threshold * (height * 0.4)));
+            ctx.stroke();
+            ctx.setLineDash([]);
 
-            <!-- Карточка GOG // GEN-01 (Оригинальная) -->
-            <div class="border border-gray-800 bg-[#111111]/90 p-6 relative group hover:border-gray-600 transition-colors md:col-span-2 flex flex-col">
-                <div class="absolute top-0 right-0 w-3 h-3 bg-[#D71921]"></div>
-                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 flex-1">
-                    <div class="flex-1">
-                        <div class="flex justify-between items-start mb-4">
-                            <div>
-                                <span class="text-xs text-[#D71921] font-bold tracking-wider">PLG-01 // UTILITY</span>
-                                <h2 class="text-2xl font-tech font-bold text-white mt-1">GOG // GEN-01</h2>
-                            </div>
-                            <span class="text-xs border border-gray-700 px-2 py-1 text-gray-400">BUILD: v0.1.0-ALPHA</span>
-                        </div>
-                        <p class="text-gray-400 text-xs max-w-2xl mb-4 md:mb-0">
-                            Лабораторный генератор тестовых сигналов (Sine, White Noise, Impulse). 
-                            Предназначен для строгой калибровки цепочки эффектов и анализа АЧХ.
-                        </p>
-                    </div>
-                    <div class="flex items-center gap-4 shrink-0">
-                        <a href="https://github.com/georgejawoods/GOG-GEN-01" target="_blank" class="text-xs text-gray-400 hover:text-white border border-gray-700 hover:border-gray-500 px-4 py-3 tracking-widest uppercase transition-colors">
-                            SOURCE ↗
-                        </a>
-                        <button class="bg-gray-800 text-gray-400 cursor-not-allowed text-xs font-bold px-6 py-3 tracking-widest uppercase transition-colors">
-                            [ INTERNAL USE ]
-                        </button>
-                    </div>
-                </div>
-            </div>
+            time += 0.02;
+            requestAnimationFrame(draw);
+        }
 
-        </div>
-    </main>
-
-    <!-- Подвал -->
-    <footer class="border-t border-gray-800 pt-6 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500 gap-4">
-        <div>© 2026 GOGIK AUDIO. ALL RIGHTS RESERVED.</div>
-        <div class="flex gap-6">
-            <a href="mailto:gogik.audio@gmail.com" class="hover:text-white transition-colors">gogik.audio@gmail.com</a>
-            <a href="https://github.com/georgejawoods" target="_blank" class="hover:text-white transition-colors">GITHUB</a>
-        </div>
-    </footer>
-
+        draw();
+    </script>
 </body>
 </html>
